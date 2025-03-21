@@ -7,6 +7,24 @@
     <title>Alert System</title>
 </head>
 <body>
+    <div class="form-container">
+        <form id="validateForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your name" required/>
+            <span class="error" id="userError"></span>
+    
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter your email" required/>
+            <span class="error" id="emailError"></span>
+    
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter your password" required/>
+            <span class="error" id="passwordError"></span>
+            
+            <button type="submit">Submit</button>
+            
+        </form>
+    
     <script src="frontend.js"></script>
 </body>
 </html>
