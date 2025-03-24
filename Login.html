@@ -1,51 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="Login.css" />
-    <title>Alert System</title>
-  </head>
-  <body>
-    <div class="form-container">
-      <form id="validateForm">
-        <div>
-          <label for="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Enter your name"
-            required
-          />
-          <span class="error" id="userError"></span>
-        </div>
 
-        <div>
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            required
-          />
-          <span class="error" id="emailError"></span>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="Login.css" />
+  <title>Alert System</title>
+</head>
 
-        <div>
-          <label for="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            required
-          />
-          <span class="error" id="passwordError"></span>
-        </div>
+<body>
+  <div id="toplabel">
+    <h2 id="label"
+      style="color: antiquewhite; font-weight: bold; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+      <img src="Icons/5ggh2o75.png" alt="" width="20px" height="20px">LocationSafe 
+    </h2>
+  </div>
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  <div class="form-container">
 
-    <script src="Login.js"></script>
-  </body>
+    <form id="validateForm">
+
+      <img class="loginphoto" src="Icons/sbynetn5.png" alt="">
+
+      <h2 id="loginlabel">Login</h2>
+
+      <div>
+        <input type="text" id="username" placeholder="Enter your name" required />
+        <span class="error" id="userError"></span>
+      </div>
+
+      <div>
+        <input type="email" id="email" placeholder="Enter your email" required />
+        <span class="error" id="emailError"></span>
+      </div>
+
+      <div><input type="password" id="password" placeholder="Enter your password" required />
+        <span class="error" id="passwordError"></span>
+      </div>
+
+      <button class="login" type="submit">Login</button>
+
+    </form>
+
+  </div>
+  <script src="Login.js"></script>
+</body>
+
 </html>
