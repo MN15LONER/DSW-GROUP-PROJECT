@@ -3,6 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.QuestionMark{
+    width: 10px;
+    height: 10px;
+}
   
   body{
     background-color: white;
