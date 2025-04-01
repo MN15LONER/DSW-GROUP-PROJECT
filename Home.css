@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
 body{
   background-color: white;
   font-family: Arial, Helvatica, sans-serif;
@@ -6,10 +11,14 @@ body{
   height: 100vh;
   justify-content: center;
   align-items: center;
+  padding: 20px;
   margin: 0;
 }
 
 h2{
   color: dark-violet;
   font-size: 60px;
+  margin bottom: 30px;
+
+
 
