@@ -1,16 +1,79 @@
+
 body{
-  background-color: white;
-  font-family: Arial, Helvatica, sans-serif;
-  color: black;
-  width: 100px;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
+  background: linear-gradient( rgb(0,0,0,0.7));
 }
 
-h2{
+.Homebuttons{
+  display: flex;
+justify-content: space-evenly;
+
+background-color: rgb(187, 187, 193);
+align-items: center;
+padding: 30x;
+position: relative;
+height: 100px;
+}
+button{
+  background: transparent;
+  border: none;
+}
+h1{
   color: dark-violet;
   font-size: 60px;
+  align-items: start;
+  justify-content: start;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
+}
+.top{
+  justify-content: right;
+  font-weight: bold;
+  font-size: 100%;
+  color:rgb(65, 26, 26);
+  text-decoration: underline;
+  size: 20px;
+}
+.top:hover{
+  color: #ffffff;
+  transition: 0.2s ease-in;
+}
+.topA{
+  border: 3px solid rgb(195, 205, 214);
+  background-color: rgb(44, 73, 74);
+  height: 60px;
+  width: 80px;
+  border-radius: 20px;
+  color: #ede1e1;
+}
+.topA:hover{
+  color:white;
+}
+.crimeImage{
+  width: 100%;
+
+  position: relative;
+  
+}
+.text{
+  
+
+  position: absolute;
+  top: 50%;
+  margin: 20px;
+  padding: 20px;
+  color: red;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 120%;
+  background: none;
+  height: 50%;
+  flex-shrink: 0; /* Prevent shrinking */
+  min-width: 800px; /* Ensures a minimum size */
+
+  
+}
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Stack elements vertically on small screens */
+  }
 }
