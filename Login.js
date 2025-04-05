@@ -13,16 +13,22 @@ document.addEventListener("DOMContentLoaded", function () {
         let passwordCheck = "12345";
         if (password.toLowerCase() === passwordCheck) {
   
-          alert(`Your email: ${email}
-          Your password: ${password}`);
+          /*correct information*/
           window.location.href = "LocationSafety.html";
-        } else {
+
+        } 
+        else {
+
           alert("Invalid password");
+          alert(`Correct password:${passwordCheck}`)
 
         }
   
-      } else {
+      } 
+      else {
+
         alert("Invalid email");
+        alert(`Correct email:${emailCheck}`)
 
       }
     });
