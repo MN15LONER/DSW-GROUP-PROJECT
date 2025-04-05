@@ -1,113 +1,149 @@
 body {
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  background: linear-gradient(to bottom, rgb(0, 0, 0, 0.7), rgb(0, 0, 0, 0.7)),
+  margin: 0;
+  padding: 5px;
+  height: 100vh;
+ /* background-image: url("Background/4nml8akk.png");
+  backdrop-filter: blur(20px);*/
+  background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('Background/4nml8akk.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 90vh;
-  /*MOving the login form up(decrease %) and down(increase %)*/
-  width: 62%;
-  /*MOving the login form left(decrease %) and right(increase %)*/
-  padding: 20px;
-
 
 }
 
+
+/*Logo and Icon*/
 #toplabel {
-  width: 8%;
   display: flex;
   justify-content: start;
-  height: 110%;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 1px;
 }
 
+/*logo text*/
 #label {
-  font-size: larger;
+  color: antiquewhite;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+/*Content Div with all the parent Div(s)*/
+.Allcontent{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 40px; 
+  }
+
+/*Parent Div*/
+.form-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+
+  
+}
+
+/*Parent Div*/
+.infro-container{
+  display: flex;
+  align-items: center;
+ 
+  padding: 20px;
+ 
+}
+/*Under intro Div*/
+.topic{
+  margin-top: 0%;
+  margin-bottom: 100px;
+  font-size: 500%;
+  
+}
+
+
+
+/*Baby Div Under infro-container*/
+.intro{
+  color: white;
+  font-size: 18px;
+  line-height: 35px;
+  padding: 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+  }
+
+  
+
+/*Baby Div under form-container Div*/
 #validateForm {
-
-
   padding: 25px;
-
-  height: 90vh;
-  width: 255px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   text-align: center;
-
+  backdrop-filter: blur(10px);
+  color: white;
 }
 
 #validateForm input {
-  width: 200px;
+  width: 90%;
   height: 30px;
   background: transparent;
   border-bottom: 1px solid whitesmoke;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  font-weight: 100px;
+  border: none;
+  border-bottom: 1px solid white;
+  color: white;
+  margin-top: 15px;
   font-size: 15px;
-  margin-top: 10px;
-
+  padding: 5px;
 }
 
-#validateForm input:hover {
-  border-color: blue;
+
+#validateForm input::placeholder {
+  color: rgb(168, 156, 156);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#validateForm .login {
-  margin-top: 23px;
-  border: 1px whitesmoke solid;
+#validateForm .login-button {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  padding: 10px;
+  width: 100%;
   border-radius: 20px;
-  font-size: 18px;
-  width: 210px;
+  border: 1px solid whitesmoke;
   background-color: cadetblue;
   color: #e2dfdf;
-}
-
-#validateForm .login:hover {
-  border: 2px solid blue;
-
-
-
-}
-
-#username::placeholder {
-  font-family: 'Courier New', Courier, monospace;
-  color: gray;
   font-size: 16px;
-  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-#password::placeholder {
-  font-family: 'Courier New', Courier, monospace;
-  color: gray;
-  font-size: 16px;
-  font-weight: bold;
+#validateForm .login-button:hover {
+  border: 2px solid rgb(220, 148, 59);
+  background-color: #296d73;
 }
 
-#email::placeholder {
-  font-family: 'Courier New', Courier, monospace;
-  color: gray;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-#loginlabel {
+/*Under validateForm Div*/
+#login-label 
+{
   color: rgb(148, 224, 221);
-  border: 3px darkslategray solid;
-  border-style: dashed;
+  border: 2px dashed darkslategray;
   border-radius: 20px;
-
+  padding: 5px;
+  margin-bottom: 15px;
 }
 
-.loginphoto {
-  margin-bottom: 0px;
+/*Under validataForm Div*/
+.login-icon {
+  margin-bottom: 10px;
   width: 40px;
+  border-radius: 50%;
   border: 3px solid blue;
-  border-radius: 50px;
-  border-color: blue;
+}
+.sign-link{
+  color: rgb(196, 196, 219);
+  font-weight: bold;
+  text-decoration: none;
 }

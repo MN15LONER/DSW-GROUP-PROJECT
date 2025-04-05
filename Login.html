@@ -1,49 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Login.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="Login.css" />
-  <title>Alert System</title>
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lobster&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   
+    <title>Login</title>
 
-<body>
-  <div id="toplabel">
-    <h2 id="label"
-      style="color: antiquewhite; font-weight: bold; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-      <img src="Icons/5ggh2o75.png" alt="" width="20px" height="20px">LocationSafe 
-    </h2>
-  </div>
+    
+    
+  </head>
 
-  <div class="form-container">
+  <body>
+    <div id="toplabel">
+      <h2
+        id="label"
+        style="
+          color: antiquewhite;
+          font-weight: bold;
+          font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial,sans-serif;">
+        <img
+          src="Icons/5ggh2o75.png"
+          alt=""
+          width="20px"
+          height="20px"
+        />LocationSafe
+      </h2>
 
-    <form id="validateForm">
+    </div>
 
-      <img class="loginphoto" src="Icons/sbynetn5.png" alt="">
+    <div class="Allcontent">
 
-      <h2 id="loginlabel">Login</h2>
+      <div class="infro-container">
 
-      <div>
-        <input type="text" id="username" placeholder="Enter your name" required />
-        <span class="error" id="userError"></span>
+        <div class="intro" style="font-family:  con">
+          <h1 class="topic">Crime Report</h1>
+          <h3 class="subject">Welcome to <span style="color: rgb(151, 136, 48);">CrimeReport</span> from reporting crime and to staying informed. </h2>
+          Quickly and securely report crimes, choose to stay anonymous
+          or share your identity, and receive real-time alerts about incidents
+          in your area. You can also track the status of reports and stay
+          updated on outcomes. SafeWatch helps you stay connected and play a
+          part in keeping your community safe.
+        </div>
+
       </div>
 
-      <div>
-        <input type="email" id="email" placeholder="Enter your email" required />
-        <span class="error" id="emailError"></span>
+      <div class="form-container">
+
+        <form id="validateForm">
+          <img class="login-icon" src="Icons/sbynetn5.png" alt="" />
+          <h2 id="login-label">Login</h2>
+
+          <div>
+            
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              
+              required
+            />
+            <span class="error" id="emailError"></span>
+          </div>
+
+          <div>
+            <img class="iconMail" src="Icons/mail_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="" width="30px" height="30px">
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              required
+            />
+            <span class="error" id="passwordError"></span>
+          </div>
+          <img class="iconPass" src="Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="" width="30px" height="30px">
+
+          <button class="login-button" type="submit">Login</button>
+
+          <span class="newUser">New User? 
+            <a href="Sign-up.html">
+            <span class="sign-link"> Register Now</span>
+            </a>
+          </span>
+
+        </form>
+
       </div>
 
-      <div><input type="password" id="password" placeholder="Enter your password" required />
-        <span class="error" id="passwordError"></span>
-      </div>
+    </div>
 
-      <button class="login" type="submit">Login</button>
-
-    </form>
-
-  </div>
-  <script src="Login.js"></script>
-</body>
-
+    <script src="Login.js"></script>
+  </body>
 </html>
