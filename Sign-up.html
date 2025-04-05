@@ -7,39 +7,19 @@
     <link rel="stylesheet" href="Sign-up.css">
 </head>
 <body>
-    <h2>Sign-up PAGE</h2>
-    <form id="signup-form">
-        <div>
-            <label for="full-name">Full Name:</label>
-            <input type="text" id="full-name" name="full-name" required>
-        </div>
-        <div>
-            <label for="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" required>
-        </div>
-        <div>
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
-        </div>
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-        </div>
-        <div>
-            <label for="id-number">ID Number:</label>
-            <input type="text" id="id-number" name="id-number" required>
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Sign Up</button>
-    </form>
-
-    <script src="Sign-up.js"></script>
+    <!--<h2>Sign Up a New Account</h2>-->
+    <div class="container">
+        <form action="register.php" method="POST">
+            <label for="fullname">
+                
+            </label>
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+            <p class="toggle-link" onclick="toggleForm()">Already have an account? Log in here</p>
+        </form>
+    </div>
 </body>
 </html>
