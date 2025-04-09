@@ -1,3 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('Background/4nml8akk.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 .home_icon{
     width: 70px;
     height: 70px;
@@ -9,16 +19,27 @@
 }
 li{
     list-style-type: none;
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: antiquewhite;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .report {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #998f8f;
-    border: 2px solid rgb(80, 74, 74);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgb(144, 113, 113);
-    height: 100vh;
+  
+    width: 90%;
+    height: 30px;
+    background: transparent;
+    border-bottom: 1px solid whitesmoke;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    margin-top: auto;
+    margin-left: 30px;
+    font-size: 15px;
+    padding: 5px;
     
 }
 label{
@@ -26,14 +47,25 @@ label{
     text-align: left;
     margin-bottom: 10px;
     margin-top: 10px;
+    color: antiquewhite;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 input, textarea,select{
     display: block;
     border-radius: 5px;
 }
 #Submit_button{
-    width: 500px;
-    height: 30px;
-    border-radius: 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid whitesmoke;
+    background-color: cadetblue;
+    color: #e2dfdf;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
     
