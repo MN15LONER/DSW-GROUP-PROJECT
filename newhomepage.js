@@ -2,24 +2,35 @@ const reports = [
   {
     lat: -26.2041,
     lng: 28.0473,
-    message: "User reported a robbery on 09/04/2025"
+    message: "User reported a robbery on 09/04/2025",
+    email: "kabumbuyi85@gmail.com",
+    user: "Kabu",
+    case_number: ""
+
   },
   {
     lat: -26.2,
     lng: 28.05,
-    message: "User reported a car theft on 08/04/2025"
+    message: "User reported a car theft on 08/04/2025",
+    email: "mdingibulela35@gmail.com",
+    user: "Bulela",
+    case_number: "c123efgrcr"
   }
 ];
+//THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(1)
+const longDB = null;
+const latDB = null;
+/////////////////////////////////////////////////////////////////////////// //END(1)
 
 let selectedLocation = null;
 let map, panorama;
 
 
 /// THE FUNCTION FOR SENDING THE AUTO EMAIL TO REGISTERED USERS EMAILS //START(1)
-function sendEmail() {
+function sendEmail(emails,users) {
   const templateParams = {
-    name: "Bulakes",
-    email: "mdingibulela35@gmail.com",
+    name: users,
+    email: emails,
     cc_email:"siphomvuma@gmail.com"
   };
 
@@ -34,12 +45,16 @@ function sendEmail() {
 ////////////////////////////////////////////////////////////// //END(1)
 
 
+//// HIDES THE STREET DIV , SHOWS THE MAP DIV AND HIDES THE BUTTON  //START(2)
 document.getElementById("backToMapBtn").addEventListener("click", () => {
   document.getElementById("map").style.display = "block";
   document.getElementById("street").style.display = "none";
   panorama.setVisible(false);
   document.getElementById("backToMapBtn").style.display = "none";
 });
+/////////////////////////////////////////////////////////////////// //END(2)
+
+
 
 document.getElementById("pinLocationBtn").addEventListener("click", () => {
   if (navigator.geolocation) {
@@ -48,6 +63,16 @@ document.getElementById("pinLocationBtn").addEventListener("click", () => {
         lat: pos.coords.latitude,
         lng: pos.coords.longitude
       };
+
+      // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(1)
+      if(longDB === null && latDB === null){
+        longDB=selectedLocation.lng;
+        latDB= selectedLocation.lat
+      }
+      //////////////////////////////////////////////////////////////////////////////// //END(1)
+
+      console.log(selectedLocation.lat,selectedLocation.lng)// CHECK IN INSPECTOR
+
       map.setCenter(selectedLocation);
       alert("Location pinned!");
       SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
@@ -60,8 +85,22 @@ document.getElementById("pinLocationBtn").addEventListener("click", () => {
 document.getElementById("viewStreetBtn").addEventListener("click", () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(pos => {
+
+      //THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(1)
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
+      //////////////////////////////////////////////////////////////////////////// //END(1)
+
+      // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(2)
+      if(longDB === null && latDB === null){
+        longDB = lng
+        latDB = lat
+      }
+      //////////////////////////////////////////////////////////////////////////////// //END(2)
+
+
+      console.log(lat,lng)// CHECK IN INSPECTOR
+
       showStreetView(lat, lng);
       SuggestionsForLocation(lat, lng);
     });
@@ -89,25 +128,41 @@ function initMap() {
 
   map.setStreetView(panorama);
 
-  /// GOES THROUGH THE REPORTS AND ADDS A MAKER ON THE MAP USING THE REPORTS LAT AND LONG //START(3)
-  reports.forEach(report => {
-    addMarker(report.lat, report.lng, report.message);
-  });
-  //////////////////////////////////////////////////////////// //END(3)
 
-  /// LISTEN FOR A CLICK ON THE MAP AND RETRIVES THE LAT AND LONG //START(4)
+  reports.forEach(report => {
+    const Warning = report.case_number
+    if(Warning.length!==10){
+      addMarker(report.lat, report.lng, report.message +": Warning");
+    }
+    addMarker(report.lat, report.lng, report.message +": Verified Crime");
+  });
+
+  /// LISTEN FOR A CLICK ON THE MAP AND RETRIVES THE LAT AND LONG //START(1)
   map.addListener("click", (event) => {
+
+    //THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(2)
     selectedLocation = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng()
     };
+    /////////////////////////////////////////////////////////////////////// //END(2)
+
+    // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(3)
+    if(longDB === null && latDB === null){
+        longDB=selectedLocation.lng;
+        latDB= selectedLocation.lat
+      }
+      //////////////////////////////////////////////////////////////////////////////// //END(3)
+    addMarker(selectedLocation.lat, selectedLocation.lng, msg);
     showStreetView(selectedLocation.lat, selectedLocation.lng);
     SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
+
     alert(`Your Location Has Been selected`);
   });
-  //////////////////////////////////////////////////////////////////// //END(4)
+  //////////////////////////////////////////////////////////////////// //END(1)
 
-  ////// SUBMIT-REPORT IS CLICKED ////////////////////START(5) 
+
+  ////// SUBMIT-REPORT IS CLICKED ////////////////////START(1) 
   document.getElementById("crimeForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -118,27 +173,50 @@ function initMap() {
     }
 
 
-    /// INFORMATION THAT WILL BE USED FOR THE MESSAGE THAT WILL BE ON THE MARKER ON THE MAP //START(6)
+    /// INFORMATION THAT WILL BE USED FOR THE MESSAGE THAT WILL BE ON THE MARKER ON THE MAP //START(2)
     const type = document.getElementById("crimeType").value;
     const desc = document.getElementById("crimeDesc").value;
     const time = new Date().toLocaleString();
     const msg = `A User reported a ${type}: ${desc} at ${time}`;
 
-    sendEmail(),
-    /////////////////////////////////////////////////////////////// //END(6)
+    //GOING THROUGH REPORTS AND USING THE LNG AND LAT TO PIN LOCATION ON THE MAP //START(3)
+    reports.forEach(report => {
+      const Warning = report.case_number
+      if(Warning.length!==10){
+        addMarker(report.lat, report.lng, report.message +": Warning");
+      }
+      addMarker(report.lat, report.lng, report.message +": Verified Crime");
+    });
+    //////////////////////////////////////////////////////////////////////////// //END(3)
+
+    
+    /////////////////////////////////////////////////////////////// //END(2)
 
     // CALLING addMaker() to ADD A MARKER, showStreetview() FOR STREET VIEW, 
-    // SuggestionsForLocation() FOR SUGGESTIONS FOR SAFETY ///////////////START(7)
+    // SuggestionsForLocation() FOR SUGGESTIONS FOR SAFETY ///////////////START(4)
     addMarker(selectedLocation.lat, selectedLocation.lng, msg);
     showStreetView(selectedLocation.lat, selectedLocation.lng);
     SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-    ///////////////////////////////////////////////////////////////////// //END(7)
+    ///////////////////////////////////////////////////////////////////// //END(4)
+
+    /// GOING THROUGH THE REPORTS AND CHECK WHETHER THEY HAVE AN EMAIL TO SEND TO AND A USERNAME //START(5) 
+    reports.forEach(report => {
+      const emails = report.email
+      if(emails.includes("@")){
+        const users =report.user;
+       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<<
+      }
+    ///////////////////////////////////////////////////////////////////////////////////// //END(5)
+
+    });
+    
+    
 
     this.reset();
     selectedLocation = null;
 
   });
-  //////////////////////////////////////////// //END(5)
+  //////////////////////////////////////////// //END(1)
 
 }
 /////////////////////////////////////////////////////////////////////////////////////// //END(1)
