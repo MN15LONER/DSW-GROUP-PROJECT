@@ -204,7 +204,7 @@ function initMap() {
       const emails = report.email
       if(emails.includes("@")){
         const users =report.user;
-       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<<
+       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<< 
       }
     ///////////////////////////////////////////////////////////////////////////////////// //END(5)
 
