@@ -18,8 +18,8 @@ const reports = [
   }
 ];
 //THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(1)
-const longDB = null;
-const latDB = null;
+let longDB = null;
+let latDB = null;
 /////////////////////////////////////////////////////////////////////////// //END(1)
 
 let selectedLocation = null;
@@ -181,10 +181,10 @@ function initMap() {
 
     //GOING THROUGH REPORTS AND USING THE LNG AND LAT TO PIN LOCATION ON THE MAP //START(3)
     reports.forEach(report => {
-      const Warning = report.case_number
-      if(Warning.length!==10){
-        addMarker(report.lat, report.lng, report.message +": Warning");
-      }
+      // const Warning = report.case_number
+      // if(Warning.length!==10){
+      //   addMarker(report.lat, report.lng, report.message +": Warning");
+      // }
       addMarker(report.lat, report.lng, report.message +": Verified Crime");
     });
     //////////////////////////////////////////////////////////////////////////// //END(3)
@@ -204,7 +204,7 @@ function initMap() {
       const emails = report.email
       if(emails.includes("@")){
         const users =report.user;
-       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<< 
+       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<<
       }
     ///////////////////////////////////////////////////////////////////////////////////// //END(5)
 
