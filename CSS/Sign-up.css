@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url(../Background/4nml8akk.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    outline: none;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    width: 300px;
+}
+h2, p {
+    text-align:center;
+    color: white
+}
+#account{
+    font-size: 1em;
+
+}
+input {
+    background-color: transparent;
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 2px solid #162938;
+    border-bottom: dashed 2px black;
+    outline: none;
+    font-size: 1em;
+    color: white;
+    font-weight: 600;
+    
+    
+}
+
+
+input::placeholder {
+    color: white;
+    opacity: 0.5;
+    font-size: 1em;
+}
+
+button {
+    width: 290px;
+    height: 40px;
+    background: #162938;
+    border: solid black 1px;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: aliceblue;
+    font-weight: 500;
+}
+
+.login-link {
+    text-decoration: none;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.error-message{
+ color: red;
+ margin-top: 20px;
+ display: none;
+}

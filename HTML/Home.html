@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Crime Report Map</title>
+  <link rel="stylesheet" href="../CSS/Home.css" />
+
+  <!-- THIS THE SCRIPT FOR SEND EMAILS //////////////////////////////////START(1) -->
+  <script type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "7IwazKSk6-v-KTOYA",
+      });
+   })();
+  </script>
+  <!-- /////////////////////////////////////////////////////////////////// //END(1) -->
+
+</head>
+<body>
+  <h3 class="title">Crime Report Map</h3>
+
+  <div class="form-container">
+    <h3>Log a Crime Report</h3>
+    <form id="crimeForm" action="#" method="POST" enctype="multipart/form-data">
+      <label for="crimeType">Crime Type:</label>
+      <input type="text" id="crimeType" name="crimeType" required><br><br>
+
+      <label for="crimeDesc">Description:</label>
+      <select id="crimeDesc" name="crimeDesc"  required>
+        <option value="">Select Description</option>
+        <option value="Gun involved">Gun involved</option>
+        <option value="Aggressive physical">Physical Aggressive</option>
+        <option value="Sharp object">Sharp object</option>
+        <option value="Pick pocket">Pick pocketing</option>
+        <option value="Grab and run">Grab and run</option>
+        <option value="Money scam">Money scam</option>
+        <option value="Sexual">Sexual</option>
+        <option value="druged">Druged</option>
+        <option value="Gang">Gang</option>
+      </select><br><br>
+
+      <input type="hidden" id="latitude" name="latitude">
+      <input type="hidden" id="longitude" name="longitude">
+
+      <button type="submit">Submit Crime Report</button>
+      <p class="note">Click on the map or use "Pin My Location" before submitting.</p>
+    </form>
+    <button id="pinLocationBtn">Pin My Location</button>
+    <button id="viewStreetBtn">View Current Position</button>
+  </div>
+
+  <div id="suggestions">
+    <h3>Nearby Reports and Safety Tips</h3>
+    <ul id="suggestionList">
+      <li><b>Stay alert</b> – Be aware of your surroundings.</li>
+      <li><b>Secure valuables</b> – Keep valuables hidden suspicious areas.</li>
+      <li><b>Use safe routes</b> – Stick to well-lit, busy areas.</li>
+      <li><b>Trust instincts</b> – If you feel unsafe, leave immediately.</li>
+    </ul>
+  </div>
+  <button id="backToMapBtn" style="display: none;">Back to Map</button>
+  <div id="map"></div>
+  <div id="street" style="display: none;"></div>
+
+  <div class="emergency-container">
+    <h2>Emergency Contacts</h2>
+    <ul class="emergency-list">
+        <li>
+            <span class="contact-name">Police emergency number</span>
+            <span class="contact-number">10111</span>
+        </li>
+        <li>
+            <span class="contact-name">Mobile phone emergency number</span>
+            <span class="contact-number">112</span>
+        </li>
+        <li>
+            <span class="contact-name">Ambulance</span>
+            <span class="contact-number">10177</span>
+        </li>
+        <li>
+            <span class="contact-name">Netcare</span>
+            <span class="contact-number">082911</span>
+        </li>
+        <li>
+            <span class="contact-name">Childline</span>
+            <span class="contact-number">0800 05 55 55</span>
+        </li>
+        <li>
+            <span class="contact-name">Child Emergency</span>
+            <span class="contact-number">0800 123 321</span>
+        </li>
+        <li>
+            <span class="contact-name">Air Rescue Emergency</span>
+            <span class="contact-number">083 1999</span>
+        </li>
+        <li>
+            <span class="contact-name">Medical rescue</span>
+            <span class="contact-number">0800 111 990</span>
+        </li>
+        <li>
+            <span class="contact-name">Red Cross</span>
+            <span class="contact-number">021 689 5227</span>
+        </li>
+        <li>
+            <span class="contact-name">Suicide Crisis</span>
+            <span class="contact-number">0800 567 567</span>
+        </li>
+        <li>
+            <span class="contact-name">South African Depression and Anxiety</span>
+            <span class="contact-number">011 234 4837</span>
+        </li>
+    </ul>
+</div>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcdQ1mAswn-onPro9DR8zmwsvtQ15HBns&callback=initMap">
+  </script>
+  <script src="../JAVASCRIPT/Home.js"></script>
+
+</body>
+</html>
