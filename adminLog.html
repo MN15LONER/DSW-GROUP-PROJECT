@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin </title>
+    <link rel="stylesheet" href="./Admin.css">
+</head>
+<body>
+    <h1>Admin Crime Report Dashboard</h1>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Filter Reports</h2>
+            <select id="crime-type">
+                <option>All crime Report</option>
+                <option>Theft</option>
+                <option>Assault</option>
+                <option>Vandalism</option>
+            </select>
+            <select id="status">
+                <option>All Statuses</option>
+                <option>Pending</option>
+                <option>Resolved</option>
+                <option>Urgent</option>
+            </select>
+            <button id="filter-btn">Apply Filters</button>
+
+            <h2>Actions</h2>
+            <button id="export-btn">Export Reports(CVS)</button>
+            <button id="resolve-btn" style="background: #5cb85c;">Mark Case as resolved</button>
+
+            <div class="report-List">
+                <h2>Recent Reports</h2>
+                <div class="report-item">
+                    <strong ID: #CR-1001></strong><br>
+                    Type: Theft | Status: <span style="color:blue;">Pending</span>
+                </div>
+
+                <div class="report-item">
+                    <strong ID: #CR-1002></strong><br>
+                    Type: Assault | Status: <span style="color:red;">Urgent</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="Map-Container" id="map">
+            <p style="text-align: center; padding-top: 40%;">Interactive Map with Crime Pins</p>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
