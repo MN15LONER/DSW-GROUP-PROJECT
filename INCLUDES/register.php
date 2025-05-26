@@ -2,11 +2,12 @@
 require_once 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fullname = trim($_POST['fullname']);
-    $lastname = trim($_POST['lastname']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $fullname = trim($_POST['fullname'] ?? '');
+    $lastname = trim($_POST['lastname'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $confirm_password = trim($_POST['confirm_password'] ?? '');
+
 
     // Checking if the passwords match
     if ($password !== $confirm_password) {
@@ -31,9 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt->execute([$fullname, $lastname, $email, $hashedPassword]);
-        echo json_encode(['status' => 'success', 'message' => 'User registered successfully']);
+        header("Location: ../HTML/Login.html");
+        exit;
+
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Something went wrong: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'error', 'message' => 'Something went wrong failed to register user: ' . $e->getMessage()]);
     }
 }
 
