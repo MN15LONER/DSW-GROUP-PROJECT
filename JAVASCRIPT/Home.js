@@ -1,725 +1,176 @@
-<<<<<<< HEAD:JAVASCRIPT/Home.js
-const reports = [
-  {
-    lat: -26.2041,
-    lng: 28.0473,
-    message: "User reported a robbery on 09/04/2025"
-  },
-  {
-    lat: -26.2,
-    lng: 28.05,
-    message: "User reported a car theft on 08/04/2025"
-  }
+let map;
+let selectedLocation = null;
+emailjs.init("ZfrdBBrSpcFvuZ7jc");
+
+// Initializing the map and center on user's location
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 15,
+    center: { lat: -26.2041, lng: 28.0473 }, // Default: Johannesburg
+  });
+
+  //Security points
+  const securityPoints = [
+  { lat: -26.2041, lng: 28.0473, name: "Bree Street Taxi Rank" },
+  { lat: -26.1952, lng: 28.0341, name: "Gandhi Square" },
+  { lat: -26.1898, lng: 28.0456, name: "Park Station" },
+  { lat: -26.1982, lng: 28.0557, name: "MTN Taxi Rank" },
+  { lat: -26.2100, lng: 28.0371, name: "Carlton Centre" },
+  { lat: -26.2028, lng: 28.0427, name: "Joburg Central Police" },
+  { lat: -26.2135, lng: 28.0519, name: "Library Gardens" }
 ];
 
-let selectedLocation = null;
-let map, panorama;
-
-
-/// THE FUNCTION FOR SENDING THE AUTO EMAIL TO REGISTERED USERS EMAILS //START(1)
-function sendEmail() {
-  const templateParams = {
-    name: "Neighbour Guard",
-    email: "neighbourguard@gmail.com",
-    cc_email:"mfunekondeya7@gmail.com"
-  };
-
-  emailjs.send("service_wv9py4j", "template_ror4z9z", templateParams)
-    .then(response => {
-      console.log("SUCCESSFUL", response.status, response.text);
-    })
-    .catch(error => {
-      console.error("UNSUCCESSFUL", error);
-    });
-}
-////////////////////////////////////////////////////////////// //END(1)
-
-
-document.getElementById("backToMapBtn").addEventListener("click", () => {
-  document.getElementById("map").style.display = "block";
-  document.getElementById("street").style.display = "none";
-  panorama.setVisible(false);
-  document.getElementById("backToMapBtn").style.display = "none";
-});
-
-document.getElementById("pinLocationBtn").addEventListener("click", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      selectedLocation = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      };
-      
-      // Update hidden form fields
-      document.getElementById('latitude').value = selectedLocation.lat;
-      document.getElementById('longitude').value = selectedLocation.lng;
-      
-      map.setCenter(selectedLocation);
-      alert("Location pinned!");
-      SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-    });
-  } else {
-    alert("Geolocation not supported.");
-  }
-});
-
-document.getElementById("viewStreetBtn").addEventListener("click", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      showStreetView(lat, lng);
-      SuggestionsForLocation(lat, lng);
-    });
-  } else {
-    alert("Geolocation not supported.");
-  }
-});
-
-
-/// THE VIEW OF THE MAP AT THE START ///START(1)
-function initMap() {
-
-  ///THE FORCE OF THE MAP IS JOHANNESBURG WITH 13 ZOOM INTO THE MAP //START(2)
-  const joburg = { lat: -26.2041, lng: 28.0473 };
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
-    center: joburg
+securityPoints.forEach((point) => {
+  const marker = new google.maps.Marker({
+    position: { lat: point.lat, lng: point.lng },
+    map: map,
+    title: point.name,
+    icon: {
+      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+    }
   });
-  /////////////////////////////////////////////////////////// //END(2)
 
-  panorama = new google.maps.StreetViewPanorama(
-    document.getElementById("street"),
-    { visible: false }
-  );
+  const infoWindow = new google.maps.InfoWindow({
+    content: `<strong>Security Point:</strong> ${point.name}`
+  });
 
-  map.setStreetView(panorama);
+  marker.addListener("click", () => {
+    infoWindow.open(map, marker);
+  });
+});
 
-  // Fetch reports from the database first
+  // Allow user to click on map to select a location
+  map.addListener("click", function (event) {
+    selectedLocation = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    };
+    addMarker(selectedLocation.lat, selectedLocation.lng, "Selected Location");
+  });
+
+  // Fetch existing reports and display them
   fetchReports();
 
-  /// GOES THROUGH THE HARDCODED REPORTS AND ADDS A MAKER ON THE MAP USING THE REPORTS LAT AND LONG //START(3)
-  reports.forEach(report => {
-    addMarker(report.lat, report.lng, report.message);
-  });
-  //////////////////////////////////////////////////////////// //END(3)
-
-  /// LISTEN FOR A CLICK ON THE MAP AND RETRIVES THE LAT AND LONG //START(4)
-  map.addListener("click", (event) => {
-    selectedLocation = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    };
-    
-    // Update hidden form fields
-    document.getElementById('latitude').value = selectedLocation.lat;
-    document.getElementById('longitude').value = selectedLocation.lng;
-    
-    showStreetView(selectedLocation.lat, selectedLocation.lng);
-    SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-    alert(`Your Location Has Been selected`);
-  });
-  //////////////////////////////////////////////////////////////////// //END(4)
-
-  ////// SUBMIT-REPORT IS CLICKED ////////////////////START(5) 
+  // Form submission
   document.getElementById("crimeForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    if (!selectedLocation) {
-      alert("Please select a location on the map or pin your location.");
+    const crimeType = document.getElementById("crimeType").value.trim();
+    const crimeDesc = document.getElementById("crimeDesc").value.trim();
+
+    if (!crimeType || !crimeDesc) {
+      alert("Please fill in both crime type and description.");
       return;
     }
 
-    /// INFORMATION THAT WILL BE USED FOR THE MESSAGE THAT WILL BE ON THE MARKER ON THE MAP //START(6)
-    const type = document.getElementById("crimeType").value;
-    const desc = document.getElementById("crimeDesc").value;
-    const time = new Date().toLocaleString();
-    const msg = `A User reported a ${type}: ${desc} at ${time}`;
+    if (!selectedLocation) {
+      alert("Please click on the map or use 'Pin My Location' to select a location.");
+      return;
+    }
 
-    // Create form data to send to the server
-    const formData = new FormData(this);
-    formData.append('latitude', selectedLocation.lat);
-    formData.append('longitude', selectedLocation.lng);
+    const formData = new URLSearchParams();
+    formData.append("crimeType", crimeType);
+    formData.append("crimeDesc", crimeDesc);
+    formData.append("latitude", selectedLocation.lat);
+    formData.append("longitude", selectedLocation.lng);
 
-    // Send the form data to the server
-    fetch('../INCLUDES/submit_report.php', {
-      method: 'POST',
-      body: formData
+    fetch("../INCLUDES/submit_report.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: formData.toString(),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
+      .then((response) => response.json())
+      .then((data) => {
         alert(data.message);
-        
-        // Add marker to the map
-        addMarker(selectedLocation.lat, selectedLocation.lng, msg);
-        
-        // Send email notification
-        sendEmail();
-        
-        // Update suggestions
-        fetchReports();
-        
-        // Reset the form
-        this.reset();
-        selectedLocation = null;
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('An error occurred while submitting the report');
-    });
-  });
-  //////////////////////////////////////////// //END(5)
-}
-/////////////////////////////////////////////////////////////////////////////////////// //END(1)
 
-//// THIS FUNCTION IS FOR ADDING A PIN ON THE MAP| CLICK ON THE ON MAP AND PIN MY LOCATION CALLS 
-/// THIS FUNCTION WITH THEIR LAT AND LONG AS PARAMETERS INCLUDING THE MSG TO PIN ON THE MAP //START(1)
-function addMarker(lat, lng, message) {
-  const marker = new google.maps.Marker({
-    position: { lat, lng },
-    map: map
+        if (data.success) {
+           emailjs.send("service_6i0o1z3", "template_siezwvd", {
+            to_email: "neighbourguard@gmail.com",
+            message: `New crime report: ${crimeType} - ${crimeDesc} at coordinates ${selectedLocation.lat}, ${selectedLocation.lng}`})
+            .then(function(response) {
+        console.log("EMAIL SENT SUCCESSFULLY:", response);
+        alert("Report has been submitted and emergency officials have been notified");
+        })
+        .catch(function(error) {
+        console.error("EMAIL SENDING FAILED:", error);
+        alert("Report submitted, but there was an issue notifying emergency officials.");
+        });
+
+          fetchReports();
+          selectedLocation = null;
+
+          document.getElementById("crimeForm").reset();
+        }
+      })
+      .catch((error) => {
+        console.error("Error submitting report:", error);
+        alert("An error occurred while submitting the report.");
+      });
   });
 
- 
-  /// LISTENS FOR A CLICK ON THE MARKER POPS THE MSG AND IT CALLS ShowStreetView() 
-  // AND ShowSuggestionsForLocation() FUNCTIONS WITHE THE LAT AND LONG AS PARAMETERS //START(2)
-  const infoWindow = new google.maps.InfoWindow({ content: message });
-  marker.addListener("click", () => {
-    infoWindow.open(map, marker);
-    showStreetView(lat, lng);
-    SuggestionsForLocation(lat, lng);
-  });
-
-  reports.push({ lat, lng, message });
-}
-/////////////////////////////////////////////////////////////////////////////////////////// //END(2)
-
-
-/// THIS FUNCTION OPENS UP THE StreetViewService() USE THE LAT, LNG FROM addMaker() //START(1)
-function showStreetView(lat, lng) {
-  const service = new google.maps.StreetViewService();
-  const location = { lat, lng };
-  const radius = 50;
-
-  /// //START(2)
-  service.getPanorama({ location, radius }, (data, status) => {
-    
-    /// CHECKING IN THE STREET HAS STREET VIEW //START(3)
-    if (status === google.maps.StreetViewStatus.OK) {
-      panorama.setPosition(data.location.latLng);
-      panorama.setVisible(true);
-      document.getElementById("map").style.display = "none";
-      document.getElementById("street").style.display = "block";
-      document.getElementById("backToMapBtn").style.display = "inline";
+  // Pin user's current location
+  document.getElementById("pinLocationBtn").addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          selectedLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          map.setCenter(selectedLocation);
+          addMarker(selectedLocation.lat, selectedLocation.lng, "Your Location");
+        },
+        function () {
+          alert("Unable to retrieve your location.");
+        }
+      );
     } else {
-      alert("Street View not available at this location.");
+      alert("Geolocation is not supported by this browser.");
     }
-    ////////////////////////////////////// //END(3)
-
   });
-  ///////////////////////////////////////// //END(2)
-
 }
-//////////////////////////////////////// //END(1)
 
-
-//SUGGESTION ARE HERE GUYS //START(1)
-function SuggestionsForLocation(lat, lng) {
-
-  ///FINDING REPORTS THAT ARE WITHIN 1KM, AND GOES TO getDistanceFromLatLngInKm() FOR CALCULATIONS //START(2)
-  const maxDistance = 1; // in km 
-  const nearbyReports = reports.filter(report => {
-    const distance = getDistanceFromLatLngInKm(lat, lng, report.lat, report.lng);
-    return distance <= maxDistance;
+// Add marker to the map
+function addMarker(lat, lng, title) {
+  new google.maps.Marker({
+    position: { lat, lng },
+    map: map,
+    title: title,
   });
-  //////////////////////////////////////// END(2)
-
-  //THIS HAPPEN AFTER THE LOCATION AROUND WITHIN 1KM HAVE BEEN FOUND OR NOT //START(3)
-  const suggestionList = document.getElementById("suggestionList");
-  suggestionList.innerHTML = "";
-
-  if (nearbyReports.length === 0) {
-    suggestionList.innerHTML = "<li>No recent reports nearby.</li>";
-  } else {
-
-    ///////// ///START(4)
-    nearbyReports.forEach(report => {
-      const li = document.createElement("li");
-      li.textContent = report.message;
-      suggestionList.appendChild(li);
-
-      //CHECKING FOR SPECIFIC WORD IN THE CRIME TYPE TO PROVIDED TIPS //START(5)
-      const Msg = report.message.toLowerCase();
-      if (Msg.includes("robbery") || Msg.includes("theft") || Msg.includes("stole")) {
-        const tips = [
-          "Walk next to open shops",
-          "Avoid using your phone",
-          "Put your phone on silent",
-          "Dont wear lavish jewellery",
-          "Leave your ear-pod at home as this could attract a mugger",
-          "Carry a pepper spray",
-          "Walk along streets that are busy and avoid shortcuts through quiet lanes"
-        ];
-        tips.forEach(tip => {
-          const tipItem = document.createElement("li");
-          tipItem.textContent = "!!" + tip;
-          suggestionList.appendChild(tipItem);
-        });
-        
-      }
-      if (Msg.includes("rape") || Msg.includes("sexual") || Msg.includes("kidnapping")) {
-        const tips = [
-          "Avoid late-night movement",
-          "Avoid walking alone",
-          "Share your location with a friend",
-          "Carry a pepper spray",
-          "Walk along streets that are busy and avoid shortcuts through quiet lanes"
-        ];
-        tips.forEach(tip => {
-          const tipItem = document.createElement("li");
-          tipItem.textContent = "NB!" + tip;
-          suggestionList.appendChild(tipItem);
-        });
-    
-    }
-      //////////////////////////////////////// //END(5)
-
-    });
-    //////////////////////////////////////// ///END(4)
-
-  }
-  ///////////////////////////////////////////// //END(3)
-
 }
-///////////////////////////////////////////////////////// //END(1)
 
-
-//FORMULA TO FIND AREAS AROUND THE LOCATION WITHIN 1 KM //START(1)
-function getDistanceFromLatLngInKm(lat1, lng1, lat2, lng2) {
-  function toRad(x) {
-    return x * Math.PI / 180;
-  }
-
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-////////////////////////////////////////////////////////// //END(1)
-
-
-// Fetching the reports from the DB and displaying them
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize the map first, then fetch reports
-  // initMap is called by the Google Maps API script callback
-});
-
+// Fetch and display all reports from the DB
 function fetchReports() {
-  // Updated path to fetch_reports.php in the INCLUDES folder
-  fetch('../INCLUDES/fetch_reports.php')
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        console.error('Error from server:', data.error);
+  fetch("../INCLUDES/fetch_reports.php")
+    .then((response) => response.json())
+    .then((data) => {
+      if (!Array.isArray(data)) {
+        console.error("Expected an array from fetch_reports.php", data);
         return;
       }
-      
-      // Update the suggestion list with reports from database
-      const suggestionList = document.getElementById('suggestionList');
-      suggestionList.innerHTML = '';
-      
-      if (data.length === 0) {
-        suggestionList.innerHTML = "<li>No reports found in the database.</li>";
-        return;
-      }
-      
-      // Add reports to the map and list
-      data.forEach(report => {
-        // Parse the latitude and longitude as numbers
+
+      const allReportsDiv = document.getElementById("allReportsContainer");
+      allReportsDiv.innerHTML = "";
+
+      data.forEach((report) => {
         const lat = parseFloat(report.latitude);
         const lng = parseFloat(report.longitude);
-        
-        // Add marker to the map if it doesn't exist yet
-        addMarker(lat, lng, report.message);
-        
-        // Add to suggestion list
-        const li = document.createElement('li');
-        li.textContent = report.message;
-        suggestionList.appendChild(li);
+        const msg = `${report.fullname} ${report.lastname} submitted a report: ${report.crimeType} - ${report.crimeDesc}`;
+        addMarker(lat, lng, msg);
+
+        const p = document.createElement("p");
+        p.textContent = msg;
+        allReportsDiv.appendChild(p);
       });
     })
-    .catch(error => console.error('Error fetching reports:', error));
-}
-=======
-const reports = [
-  {
-    lat: -26.2041,
-    lng: 28.0473,
-    message: "User reported a robbery on 09/04/2025",
-    email: "kabumbuyi85@gmail.com",
-    user: "Kabu",
-    case_number: ""
-
-  },
-  {
-    lat: -26.2,
-    lng: 28.05,
-    message: "User reported a car theft on 08/04/2025",
-    email: "mdingibulela35@gmail.com",
-    user: "Bulela",
-    case_number: "c123efgrcr"
-  }
-];
-//THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(1)
-let longDB = null;
-let latDB = null;
-/////////////////////////////////////////////////////////////////////////// //END(1)
-
-let selectedLocation = null;
-let map, panorama;
-
-
-/// THE FUNCTION FOR SENDING THE AUTO EMAIL TO REGISTERED USERS EMAILS //START(1)
-function sendEmail(emails,users) {
-  const templateParams = {
-    name: users,
-    email: emails,
-    cc_email:"siphomvuma@gmail.com"
-  };
-
-  emailjs.send("service_wv9py4j", "template_ror4z9z", templateParams)
-    .then(response => {
-      console.log("SUCCESSFUL", response.status, response.text);
-    })
-    .catch(error => {
-      console.error("UNSUCCESSFUL", error);
+    .catch((error) => {
+      console.error("Error fetching reports:", error);
     });
 }
-////////////////////////////////////////////////////////////// //END(1)
+
+// Make initMap globally available for Google Maps callback
+window.initMap = initMap;
 
 
-//// HIDES THE STREET DIV , SHOWS THE MAP DIV AND HIDES THE BUTTON  //START(2)
-document.getElementById("backToMapBtn").addEventListener("click", () => {
-  document.getElementById("map").style.display = "block";
-  document.getElementById("street").style.display = "none";
-  panorama.setVisible(false);
-  document.getElementById("backToMapBtn").style.display = "none";
-});
-/////////////////////////////////////////////////////////////////// //END(2)
-
-
-
-document.getElementById("pinLocationBtn").addEventListener("click", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-      selectedLocation = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      };
-
-      // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(1)
-      if(longDB === null && latDB === null){
-        longDB=selectedLocation.lng;
-        latDB= selectedLocation.lat
-      }
-      //////////////////////////////////////////////////////////////////////////////// //END(1)
-
-      console.log(selectedLocation.lat,selectedLocation.lng)// CHECK IN INSPECTOR
-
-      map.setCenter(selectedLocation);
-      alert("Location pinned!");
-      SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-    });
-  } else {
-    alert("Geolocation not supported.");
-  }
-});
-
-document.getElementById("viewStreetBtn").addEventListener("click", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(pos => {
-
-      //THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(1)
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      //////////////////////////////////////////////////////////////////////////// //END(1)
-
-      // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(2)
-      if(longDB === null && latDB === null){
-        longDB = lng
-        latDB = lat
-      }
-      //////////////////////////////////////////////////////////////////////////////// //END(2)
-
-
-      console.log(lat,lng)// CHECK IN INSPECTOR
-
-      showStreetView(lat, lng);
-      SuggestionsForLocation(lat, lng);
-    });
-  } else {
-    alert("Geolocation not supported.");
-  }
-});
-
-
-/// THE VIEW OF THE MAP AT THE START ///START(1)
-function initMap() {
-
-  ///THE FORCE OF THE MAP IS JOHANNESBURG WITH 13 ZOOM INTO THE MAP //START(2)
-  const joburg = { lat: -26.2041, lng: 28.0473 };
-  map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
-    center: joburg
-  });
-  /////////////////////////////////////////////////////////// //END(2)
-
-  panorama = new google.maps.StreetViewPanorama(
-    document.getElementById("street"),
-    { visible: false }
-  );
-
-  map.setStreetView(panorama);
-
-
-  reports.forEach(report => {
-    const Warning = report.case_number
-    if(Warning.length!==10){
-      addMarker(report.lat, report.lng, report.message +": Warning");
-    }
-    addMarker(report.lat, report.lng, report.message +": Verified Crime");
-  });
-
-  /// LISTEN FOR A CLICK ON THE MAP AND RETRIVES THE LAT AND LONG //START(1)
-  map.addListener("click", (event) => {
-
-    //THESE ARE THE LONG AND LAT WE ARE GOING TO USE TO STORE ALONG THE USER NAME//START(2)
-    selectedLocation = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    };
-    /////////////////////////////////////////////////////////////////////// //END(2)
-
-    // APPENDING THE LONG AND LAT TO THE VARIABLE THAT WILL BE USED FOR THE DATABASE //START(3)
-    if(longDB === null && latDB === null){
-        longDB=selectedLocation.lng;
-        latDB= selectedLocation.lat
-      }
-      //////////////////////////////////////////////////////////////////////////////// //END(3)
-    addMarker(selectedLocation.lat, selectedLocation.lng, msg);
-    showStreetView(selectedLocation.lat, selectedLocation.lng);
-    SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-
-    alert(`Your Location Has Been selected`);
-  });
-  //////////////////////////////////////////////////////////////////// //END(1)
-
-
-  ////// SUBMIT-REPORT IS CLICKED ////////////////////START(1) 
-  document.getElementById("crimeForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-
-    if (!selectedLocation) {
-      alert("Please select a location on the map or pin your location.");
-      return;
-    }
-
-
-    /// INFORMATION THAT WILL BE USED FOR THE MESSAGE THAT WILL BE ON THE MARKER ON THE MAP //START(2)
-    const type = document.getElementById("crimeType").value;
-    const desc = document.getElementById("crimeDesc").value;
-    const time = new Date().toLocaleString();
-    const msg = `A User reported a ${type}: ${desc} at ${time}`;
-
-    //GOING THROUGH REPORTS AND USING THE LNG AND LAT TO PIN LOCATION ON THE MAP //START(3)
-    reports.forEach(report => {
-      // const Warning = report.case_number
-      // if(Warning.length!==10){
-      //   addMarker(report.lat, report.lng, report.message +": Warning");
-      // }
-      addMarker(report.lat, report.lng, report.message +": Verified Crime");
-    });
-    //////////////////////////////////////////////////////////////////////////// //END(3)
-
-    
-    /////////////////////////////////////////////////////////////// //END(2)
-
-    // CALLING addMaker() to ADD A MARKER, showStreetview() FOR STREET VIEW, 
-    // SuggestionsForLocation() FOR SUGGESTIONS FOR SAFETY ///////////////START(4)
-    addMarker(selectedLocation.lat, selectedLocation.lng, msg);
-    showStreetView(selectedLocation.lat, selectedLocation.lng);
-    SuggestionsForLocation(selectedLocation.lat, selectedLocation.lng);
-    ///////////////////////////////////////////////////////////////////// //END(4)
-
-    /// GOING THROUGH THE REPORTS AND CHECK WHETHER THEY HAVE AN EMAIL TO SEND TO AND A USERNAME //START(5) 
-    reports.forEach(report => {
-      const emails = report.email
-      if(emails.includes("@")){
-        const users =report.user;
-       // sendEmail(emails,users) // >>>>> EMAIL IS HERE <<<<
-      }
-    ///////////////////////////////////////////////////////////////////////////////////// //END(5)
-
-    });
-    
-    
-
-    this.reset();
-    selectedLocation = null;
-
-  });
-  //////////////////////////////////////////// //END(1)
-
-}
-/////////////////////////////////////////////////////////////////////////////////////// //END(1)
-
-//// THIS FUNCTION IS FOR ADDING A PIN ON THE MAP| CLICK ON THE ON MAP AND PIN MY LOCATION CALLS 
-/// THIS FUNCTION WITH THEIR LAT AND LONG AS PARAMETERS INCLUDING THE MSG TO PIN ON THE MAP //START(1)
-function addMarker(lat, lng, message) {
-  const marker = new google.maps.Marker({
-    position: { lat, lng },
-    map: map
-  });
-
- 
-  /// LISTENS FOR A CLICK ON THE MARKER POPS THE MSG AND IT CALLS ShowStreetView() 
-  // AND ShowSuggestionsForLocation() FUNCTIONS WITHE THE LAT AND LONG AS PARAMETERS //START(2)
-  const infoWindow = new google.maps.InfoWindow({ content: message });
-  marker.addListener("click", () => {
-    infoWindow.open(map, marker);
-    showStreetView(lat, lng);
-    SuggestionsForLocation(lat, lng);
-  });
-
-  reports.push({ lat, lng, message });
-}
-/////////////////////////////////////////////////////////////////////////////////////////// //END(2)
-
-
-/// THIS FUNCTION OPENS UP THE StreetViewService() USE THE LAT, LNG FROM addMaker() //START(1)
-function showStreetView(lat, lng) {
-  const service = new google.maps.StreetViewService();
-  const location = { lat, lng };
-  const radius = 50;
-
-  /// //START(2)
-  service.getPanorama({ location, radius }, (data, status) => {
-    
-    /// CHECKING IN THE STREET HAS STREET VIEW //START(3)
-    if (status === google.maps.StreetViewStatus.OK) {
-      panorama.setPosition(data.location.latLng);
-      panorama.setVisible(true);
-      document.getElementById("map").style.display = "none";
-      document.getElementById("street").style.display = "block";
-      document.getElementById("backToMapBtn").style.display = "inline";
-    } else {
-      alert("Street View not available at this location.");
-    }
-    ////////////////////////////////////// //END(3)
-
-  });
-  ///////////////////////////////////////// //END(2)
-
-}
-//////////////////////////////////////// //END(1)
-
-
-//SUGGESTION ARE HERE GUYS //START(1)
-function SuggestionsForLocation(lat, lng) {
-
-  ///FINDING REPORTS THAT ARE WITHIN 1KM, AND GOES TO getDistanceFromLatLngInKm() FOR CALCULATIONS //START(2)
-  const maxDistance = 1; // in km 
-  const nearbyReports = reports.filter(report => {
-    const distance = getDistanceFromLatLngInKm(lat, lng, report.lat, report.lng);
-    return distance <= maxDistance;
-  });
-  //////////////////////////////////////// END(2)
-
-  //THIS HAPPEN AFTER THE LOCATION AROUND WITHIN 1KM HAVE BEEN FOUND OR NOT //START(3)
-  const suggestionList = document.getElementById("suggestionList");
-  suggestionList.innerHTML = "";
-
-  if (nearbyReports.length === 0) {
-    suggestionList.innerHTML = "<li>No recent reports nearby.</li>";
-  } else {
-
-    ///////// ///START(4)
-    nearbyReports.forEach(report => {
-      const li = document.createElement("li");
-      li.textContent = report.message;
-      suggestionList.appendChild(li);
-
-      //CHECKING FOR SPECIFIC WORD IN THE CRIME TYPE TO PROVIDED TIPS //START(5)
-      const Msg = report.message.toLowerCase();
-      if (Msg.includes("robbery") || Msg.includes("theft") || Msg.includes("stole")) {
-        const tips = [
-          "Walk next to open shops",
-          "Avoid using your phone",
-          "Put your phone on silent",
-          "Dont wear lavish jewellery",
-          "Leave your ear-pod at home as this could attract a mugger",
-          "Carry a pepper spray",
-          "Walk along streets that are busy and avoid shortcuts through quiet lanes"
-        ];
-        tips.forEach(tip => {
-          const tipItem = document.createElement("li");
-          tipItem.textContent = "!!" + tip;
-          suggestionList.appendChild(tipItem);
-        });
-        
-      }
-      if (Msg.includes("rape") || Msg.includes("sexual") || Msg.includes("kidnapping")) {
-        const tips = [
-          "Avoid late-night movement",
-          "Avoid walking alone",
-          "Share your location with a friend",
-          "Carry a pepper spray",
-          "Walk along streets that are busy and avoid shortcuts through quiet lanes"
-        ];
-        tips.forEach(tip => {
-          const tipItem = document.createElement("li");
-          tipItem.textContent = "NB!" + tip;
-          suggestionList.appendChild(tipItem);
-        });
-    
-    }
-      //////////////////////////////////////// //END(5)
-
-    });
-    //////////////////////////////////////// ///END(4)
-
-  }
-  ///////////////////////////////////////////// //END(3)
-
-}
-///////////////////////////////////////////////////////// //END(1)
-
-
-//FORMULA TO FIND AREAS AROUND THE LOCATION WITHIN 1 KM //START(1)
-function getDistanceFromLatLngInKm(lat1, lng1, lat2, lng2) {
-  function toRad(x) {
-    return x * Math.PI / 180;
-  }
-
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLng / 2) * Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-////////////////////////////////////////////////////////// //END(1)
->>>>>>> 7892d8f88ca9f51e22583bf584a65f9d0c261b6c:newhomepage.js
