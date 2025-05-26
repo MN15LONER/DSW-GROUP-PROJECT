@@ -15,97 +15,51 @@
         </div>
 
         <section class="login-section">
-            <div class="login-container">
-                <h2>Login</h2>
-                <form method="POST" action="" id="validateForm">
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <div class="input-field">
-                            <img src="../Icons/mail_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Email Icon" class="field-icon">
-                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                        </div>
-                        <span class="error-message" id="emailError"></span>
-                    </div>
-        
-                    <div class="input-group">
-                        <label for="password">Password</label>
-                        <div class="input-field">
-                            <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Password Icon" class="field-icon">
-                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                        </div>
-                        <span class="error-message" id="passwordError"></span>
-                    </div>
-        
-                    <div class="forgot-password">
-                        <a href="forgot-password.html">Forgot your password?</a>
-                    </div>
-        
-                    <button type="submit" class="btn-login">Login</button>
-        
-                    <div class="alternative-login">
-                        <span class="divider-text">Or login with</span>
-                        <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=701617346023-nl0130bnic6jtt20482h6suc07vr0j6r.apps.googleusercontent.com&redirect_uri=http://localhost/DSW_PROJECT/includes/google-callback.php&response_type=code&scope=email%20profile" class="btn-google">
-                            <img src="../Icons/google icon.png" alt="Google Logo" class="google-icon">
-                            <span>Google</span>
-                        </a>
-                    </div>
-        
-                    <div class="register-prompt">
-                        <span>New to NeighbourGuard?</span>
-                        <a href="Sign-up.html" class="link-register">Sign up now</a>
-                    </div>
-                </form>
-            </div>
-        </section>
+            <div class="login-wrapper">
+                <div class="login-image">
+                    <img src="../Background/login.jpg" alt="Login visual">
+                </div>
 
-        <section class="about">
-            <div class="row">
-                <div class="column">
-                    <img src="" alt="About us image">
-                </div>
-                <div class="column">
-                    <h1 class="heading">ABOUT US</h1>
-                    <p class="paragraph">
-                        At Guard Map, we believe in the power of
-                        community-driven safety. Our platform enables witnesses
-                        to report crimes swiftly and securely while pinpointing
-                        the location using Google Maps API. By bridging
-                        technology with public awareness, we aim to create a
-                        safer environment for everyone. Your voice matters,
-                        and together, we can make a difference.
-                    </p>
-                </div>
-            </div>
-        </section>
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <form method="POST" action="" id="validateForm">
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <div class="input-field">
+                                <img src="../Icons/mail_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Email Icon" class="field-icon">
+                                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+            
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <div class="input-field">
+                                <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Password Icon" class="field-icon">
+                                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            </div>
+                        </div>
+            
+                        <div class="forgot-password">
+                            <a href="forgot-password.html">Forgot your password?</a>
+                        </div>
+            
+                        <button type="submit" class="btn-login">Login</button>
+            
+                        <div class="alternative-login">
+                            <span class="divider-text">Or login with</span>
+                            <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=701617346023-nl0130bnic6jtt20482h6suc07vr0j6r.apps.googleusercontent.com&redirect_uri=http://localhost/DSW_PROJECT/includes/google-callback.php&response_type=code&scope=email%20profile" class="btn-google">
+                                <img src="../Icons/google icon.png" alt="Google Logo" class="google-icon">
+                                <span>Google</span>
+                            </a>
+                        </div>
+            
+                        <div class="register-prompt">
+                            <span>New to NeighbourGuard?</span>
+                            <a href="Sign-up.html" class="link-register">Sign up now</a>
+                        </div>
 
-        <section class="team">
-            <h1 class="team-heading">OUR TEAM</h1>
-            <p class="team-subheading">Meet our team of developers</p>
-            <div class="team-row">
-                <div class="team-column">
-                    <img src="" alt="Team member">
-                    <h3 class="member-name">KEAGAN</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div class="team-column">
-                    <img src="" alt="Team member">
-                    <h3 class="member-name">KABU</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div class="team-column">
-                    <img src="../Icons/Mfuneko_face.jpg" alt="Team member">
-                    <h3 class="member-name">MFUNEKO</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div class="team-column">
-                    <img src="" alt="Team member">
-                    <h3 class="member-name">MDINGI</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-                <div class="team-column">
-                    <img src="" alt="Team member">
-                    <h3 class="member-name">SESIHLE</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <button class="Pbtn" type="button" id="panicButton">Panic</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -113,13 +67,14 @@
         <footer class="footer">
             <div class="footer-row">
                 <div class="footer-column">
-                    <p class="copyright">© 2025 COPYRIGHT Guardian Map</p>
+                    <p class="copyright">© 2025 COPYRIGHT Neighbour Guard</p>
                 </div>
                 <div class="footer-column">
                     <p class="designer">Designed by Markup Mavericks</p>
                 </div>
             </div>
         </footer>
+        <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
         <script src="../JAVASCRIPT/Login.js"></script>
     </body>
 </html>

@@ -15,12 +15,12 @@
     <section class="signup-section">
         <div class="signup-container">
             <h2>Sign Up</h2>
-            <form method="POST" action="../includes/register.php" id="validateForm">
+            <form method="POST" action="../includes/register.php" id="signup-form">
                 <div class="input-group">
                     <label for="fullname">Full Name</label>
                     <div class="input-field">
                         <img src="../Icons/User_icon.png" alt="Password Icon" class="field-icon">
-                        <input type="text" id="name" name="name" placeholder="Enter your Full name" required>
+                        <input type="text" id="name" name="fullname" placeholder="Enter your Full name" required>
                     </div>
                     <span class="error-message" id="nameError"></span>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="input-group">
                     <label for="email">Email</label>
                     <div class="input-field">
-                        <img src="../Icons/mail_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24 .png" alt="Password Icon" class="field-icon">
+                        <img src="../Icons/mail_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Password Icon" class="field-icon">
                         <input type="email" id="email" name="email" placeholder="Enter your email" required>
                     </div>
                     <span class="error-message" id="emailError"></span>
@@ -46,7 +46,7 @@
                 <div class="input-group">
                     <label for="password">Password</label>
                     <div class="input-field">
-                        <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24 .png" alt="Password Icon" class="field-icon">
+                        <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Password Icon" class="field-icon">
                         <input type="password" id="password" name="password" placeholder="Enter your password" required>
                     </div>
                     <span class="error-message" id="passwordError"></span>
@@ -55,18 +55,14 @@
                 <div class = "input-group">
                     <label for="confirm_password">Confirm Password</label>
                     <div class="input-field">
-                        <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24 .png" alt="Password Icon" class="field-icon">
+                        <img src="../Icons/password_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Password Icon" class="field-icon">
                         <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
                     </div>
-                    <span class="error-message" id="confirmPasswordError"></span>
-                </div>
-        
                 <button type="submit" class="btn-signUp">Sign Up</button>
                 <p>Already have an account?</p><a href="Login.html" class="login-link">Log in here</a> 
             </form>
         </div>
     </section>
-    <span id="passwordError" class="error-message">Passwords dont match!</span> 
     <script src="../JAVASCRIPT/Sign-up.js"></script>
 </body>
 </html>
