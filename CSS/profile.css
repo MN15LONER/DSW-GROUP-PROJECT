@@ -22,6 +22,9 @@ h4, h5, h3 {
 .card-body {
   margin-bottom: 20px;
 }
+.card-body img{
+  margin-left: 200px;
+}
 
 label {
   font-weight: bold;
