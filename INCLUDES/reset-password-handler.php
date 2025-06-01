@@ -34,7 +34,7 @@ $stmt->execute([$hashedPassword, $email]);
 echo <<<HTML
 <script>
     alert('Password has been reset successfully.');
-    window.location.href = '..HTML/Login.html';
+    window.location.href = 'http://localhost/DSW_PROJECT/HTML/Login.html';
 </script>
 HTML;
 exit;

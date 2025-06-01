@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2025 at 10:26 AM
+-- Generation Time: Jun 01, 2025 at 05:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `admins` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`admin_id`, `fullname`, `lastname`, `email`, `password`) VALUES
+(1, 'neighbourguard', 'neighbourguard', 'neighbourguard@gmail.com', '123');
 
 -- --------------------------------------------------------
 
@@ -110,7 +117,8 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`id`, `email`, `token`, `expires_at`) VALUES
-(1, 'theegoldenboy15@gmail.com', '5199da13607fe210d643274ee574e7578e9c5121b1167734c111bb96d66f5838', '2025-05-20 16:26:57');
+(1, 'theegoldenboy15@gmail.com', '5199da13607fe210d643274ee574e7578e9c5121b1167734c111bb96d66f5838', '2025-05-20 16:26:57'),
+(3, 'mfunekondeya7@gmail.com', '5c155f9c8df0baf0ac6eea0a866bec6e562261024a89d1423cf32874d419cd05', '2025-05-31 20:27:50');
 
 -- --------------------------------------------------------
 
@@ -135,7 +143,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `created_at`, `lastname`, `reset_token`, `token_expires`) VALUES
 (5, 'Mfuneko Ndeya', 'theegoldenboy15@gmail.com', '$2y$10$T0oUdsKecYNpwuveK8X0g.UviucirjuSMoWr.aELInRAOgKa5uQum', '2025-05-17 14:06:31', 'Ndeya', NULL, NULL),
-(6, 'Ovayo', 'mfunekondeya7@gmail.com', '$2y$10$hg6vDDIZmSx0rhKxZQKOBeFBDTomyaCAHVqINSMcvwbphWQtVO8EW', '2025-05-18 08:46:56', 'Russell', NULL, NULL),
+(6, 'Ovayo', 'mfunekondeya7@gmail.com', '$2y$10$9qJ5ISbCLPHsj4nIH8L3ueMpqCu5s7BWrJvzqJGFc97u7t7CIx4sW', '2025-05-18 08:46:56', 'Russell', NULL, NULL),
 (7, 'Keagan', 'keaganbotha11@gmail.com', '$2y$10$Qikpfx6gbYC3MHlA/EEji.2FOcvVNwGSpxDajqA7Ux5JjXUamWvCW', '2025-05-19 10:44:35', 'Botha', NULL, NULL),
 (8, 'Kabu', 'kabumbuyi85@gmail.com', '$2y$10$eM9LSgDWxjFnBGvu.OjlfOYirBtp.5Am2ITuDNeLwPNCTvnebEBrS', '2025-05-20 11:05:33', 'Mbuyi', NULL, NULL),
 (9, 'Neighbourguardadmin', 'neighbourguard@gmail.com', '$2y$10$1f78A8baTaNHAtqQpoR9CeRg4YkPeLm6UJJ8ZqRbbMHdtB4KrflJS', '2025-05-23 15:16:13', 'Admin', NULL, NULL),
@@ -185,7 +193,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `crimereports`
@@ -203,7 +211,7 @@ ALTER TABLE `panicreports`
 -- AUTO_INCREMENT for table `password_resets`
 --
 ALTER TABLE `password_resets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
